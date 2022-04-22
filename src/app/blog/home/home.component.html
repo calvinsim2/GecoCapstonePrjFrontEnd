@@ -1,0 +1,83 @@
+<div class="container text-center myheader">
+  <p>InvokerBlog</p>
+</div>
+
+<div class="container text-center mysecheader my-2" style="width: 600px">
+  <div *ngIf="!isLoggedIn" class="d-flex flex-row flex-wrap justify-content-center align-items-center myinnerheader mb-0">
+    <div class="m-2 fw-bold fst-italic">Not logged in </div>
+    <div class="m-2"><button (click)="goToLogin()" class="btn btn-primary">Login</button></div>
+  </div>
+  <div *ngIf="isLoggedIn" class="d-flex flex-row flex-wrap justify-content-center align-items-center myinnerheader mb-0">
+    <div class="m-2 fw-bold fst-italic">Welcome {{ loggedInName }}</div>
+    <div class="m-2"><button (click)="goToProfile()" class="btn btn-primary">Profile</button></div>
+  </div>
+  <div class="text-center briefing p-2">
+    <h5>Welcome to InvokerBlog</h5>
+    <p>
+      If you are a Blogger, feel free to share any
+      topics you have!
+    </p>
+    <p>
+      If you are a User instead, feel free to share your thoughts and
+      your views, in the comment section of the blog.
+    </p>
+  </div>
+
+  <div
+    id="carouselExampleControls"
+    class="carousel slide myinnersecondheader mt-0"
+    data-bs-ride="carousel"
+  >
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div
+          class="container bg-light border border-dark rounded d-flex align-items-center blog"
+          style="height: 400px"
+        >
+          <div class="text-center m-auto">
+            <button
+              (click)="goToBlog()"
+              class="btn btn-success account-btn m-2"
+            >
+              View Blogs
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div
+          class="container bg-light border border-dark rounded d-flex align-items-center rules"
+          style="height: 400px"
+        >
+          <div class="text-center m-auto">
+            <button
+              type="submit"
+              (click)="goToRules()"
+              class="btn btn-danger account-btn m-2"
+            >
+              Read...
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#carouselExampleControls"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>

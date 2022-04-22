@@ -1,0 +1,205 @@
+<div class="content container-fluid">
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div class="page-header text-dark">
+      <button (click)="navigateToHome()" class="btn btn-success mt-2">
+        Home
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container text-center mx-auto mt-5">
+  <img src="assets/logo.jpg" width="150" alt="" />
+</div>
+<div
+  class="container col-4 bg-warning mx-auto my-3 border border-primary rounded"
+>
+  <div class="container text-center m-2">
+    <h3 class="account-title">Sign Up</h3>
+
+    <button (click)="navigateToLogIn()" class="btn btn-secondary">
+      Already a User? Log In Here!
+    </button>
+  </div>
+
+  <div class="container col-9 mx-auto my-3">
+    <div
+      class="d-flex flex-row justify-content-evenly align-items-center text-center"
+    >
+      <button
+        (click)="onAddBlogger()"
+        class="btn btn-success p-3 m-2 fw-bold"
+        data-bs-toggle="modal"
+        data-bs-target="#signUpModal"
+      >
+        Sign Up - Blogger
+      </button>
+      <button
+        (click)="onAddUser()"
+        class="btn btn-info p-3 m-2 fw-bold"
+        data-bs-toggle="modal"
+        data-bs-target="#signUpModal"
+      >
+        Sign Up - User
+      </button>
+    </div>
+  </div>
+  <div
+    class="container text-center text-primary text-decoration-underline m-2 intro"
+    data-bs-toggle="modal"
+    data-bs-target="#descriptionModal"
+  >
+    Unsure which to choose? Click me!
+  </div>
+</div>
+
+<!-- Modal Starts here -->
+
+<div
+  class="modal fade"
+  id="signUpModal"
+  tabindex="-1"
+  aria-labelledby="signUpLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signUpModalLabel">
+          Welcome to the Community!
+        </h5>
+        <button
+          type="button"
+          id="close-emp"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="userForm">
+          <div class="row">
+            <div class="col-sm-12 d-flex justify-content-center">
+              <img
+                class="img-fluid img-thumbnail"
+                [src]="imgUrl"
+                style="width: 120px; height: 120px; border-radius: 50%"
+                alt=""
+              /><br />
+              <div class="form-group">
+                <label for="file-input">
+                  <i class="fa fa-pencil"></i>
+                </label>
+              </div>
+            </div>
+            <input
+              (change)="loadProfileImage($event)"
+              style="display: none"
+              id="file-input"
+              type="file"
+              accept="image/*"
+            />
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Email <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="Email"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Password<span class="text-danger">*</span></label
+                >
+                <span
+                  (click)="onTogglePassword()"
+                  class="fa toggle-password fa-eye mx-1"
+                ></span>
+                <input
+                  type="{{ text }}"
+                  formControlName="Password"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Full Name<span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="FullName"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="close-emp"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="addNewPerson()">
+          Sign Up!
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Description Starts here -->
+
+<div
+  class="modal fade"
+  id="descriptionModal"
+  tabindex="-1"
+  aria-labelledby="descriptionLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content decorate-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="descriptionLabel">Unable to decide?</h5>
+        <button
+          type="button"
+          id="close-emp"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Blogger - You are entitled to create blogs and share with the
+          community!
+        </p>
+        <p>
+          User - If you want to read and comment on blogs only, you can't create
+          blogs.
+        </p>
+        <div class="modal-footer">
+          <button
+            type="button"
+            id="close-emp"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

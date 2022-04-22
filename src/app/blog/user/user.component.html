@@ -1,0 +1,41 @@
+<div class="content container-fluid">
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div class="page-title myheader text-center mt-2">
+      <p>Users</p>
+    </div>
+  </div>
+</div>
+
+<div class="container d-flex flex-row flex-wrap justify-content-start">
+  <div *ngFor="let user of userList">
+    <div
+      class="card m-3 decorate-cards border-dark rounded"
+      style="width: 18rem"
+    >
+      <img
+        [src]="user.profileImgUrl"
+        class="align-self-center mt-3"
+        alt="blog"
+        style="width: 150px; height: 150px; border-radius: 50%"
+      />
+      <div class="card-body text-center">
+        <h5 class="card-title">{{ user.fullName }}</h5>
+        <div class="text-center">
+          <p class="card-text text-success fw-bold fst-italic mt-1"></p>
+          <button (click)="toUserPage(user.userID)" class="btn btn-primary">
+            View Profile
+          </button>
+        </div>
+        <p class="card-text fw-bold mt-1">
+          Joined : {{ getDate(user?.joinedDate) }}
+        </p>
+      </div>
+      <div
+        class="card-footer text-center fw-bold fst-italic mt-2"
+        [ngStyle]="{ backgroundColor: setCardColor(user.roleID) }"
+      >
+        {{ user.role.roleName }}
+      </div>
+    </div>
+  </div>
+</div>

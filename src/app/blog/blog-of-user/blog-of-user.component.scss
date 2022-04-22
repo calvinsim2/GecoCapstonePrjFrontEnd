@@ -1,0 +1,9 @@
+.card-img-top {
+    width:100%;
+    height: 25vh;
+    object-fit: contain;
+}
+
+.decorate-cards {
+    background: radial-gradient(circle at center, rgb(255,250,205), rgb(224,255,255));
+}

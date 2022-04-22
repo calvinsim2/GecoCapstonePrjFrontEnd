@@ -1,0 +1,157 @@
+<div class="content container-fluid">
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div class="page-title myheader text-center mt-2">
+      <p>Blog</p>
+    </div>
+    <div class="add-blog mt-2">
+      <button
+        *ngIf="allowAdd"
+        class="btn addbtn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#blogModal"
+      >
+        <i class="fa fa-plus"></i> Share New Blog
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container d-flex flex-row flex-wrap justify-content-start">
+  <div *ngFor="let blog of blogList">
+    <div
+      *ngIf="blog.isVisible"
+      class="card m-3 decorate-cards border-dark rounded"
+      style="width: 18rem"
+    >
+      <img [src]="blog.blogImg" class="card-img-top" alt="blog" />
+      <div class="card-body text-center">
+        <h5 class="card-title">{{ blog.title }}</h5>
+        <p class="card-text">{{ blog.description }}</p>
+        <div class="text-center">
+          <button (click)="seeDetails(blog.blogID)" class="btn btn-primary">
+            Read More
+          </button>
+        </div>
+        <p class="card-text fw-bold mt-1">
+          Created Date : {{ getDate(blog?.publishDate) }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Blog Card list ends -->
+
+<div
+  class="modal fade"
+  id="blogModal"
+  tabindex="-1"
+  aria-labelledby="blogLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+  >
+    <div class="modal-content decorate-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="blogModalLabel">
+          Have something to share?
+        </h5>
+        <button
+          type="button"
+          id="close-emp"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="myForm">
+          <div class="row">
+            <div class="col-sm-12 d-flex justify-content-center">
+              <img
+                class="img-fluid img-thumbnail"
+                [src]="imgUrl"
+                style="width: 120px; height: 120px; border-radius: 50%"
+                alt=""
+              /><br />
+              <div class="form-group">
+                <label for="file-input">
+                  <i class="fa fa-pencil"></i>
+                </label>
+              </div>
+            </div>
+            <input
+              (change)="loadProfileImage($event)"
+              style="display: none"
+              id="file-input"
+              type="file"
+              accept="image/*"
+            />
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Title <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="Title"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Description <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="Description"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6 my-2">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  formControlName="IsVisible"
+                  value=""
+                  id="flexCheckDefault"
+                />
+                <label class="form-check-label" for="flexCheckDefault">
+                  Public?
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="container" style="height: 300px">
+          <label class="col-form-label"
+            >Content <span class="text-danger">*</span></label
+          >
+          <ckeditor
+            [(ngModel)]="currentEditor.content"
+            [editor]="Editor"
+          ></ckeditor>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="close-emp"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="addNewBlog()">
+          Add Blog!
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

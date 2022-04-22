@@ -1,0 +1,26 @@
+body {
+  overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+  
+}
+
+
+.dropdown-item :hover {
+  background: red;
+  color: blue;
+}
+
+.wallpaper {
+  // background: lightskyblue;
+  background: linear-gradient(to bottom, rgb(135, 206, 250), rgb(0, 191, 255));
+  // height: 100vh;
+}

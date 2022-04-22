@@ -1,0 +1,49 @@
+<div class="container text-center myheader">
+  <p>InvokerBlog</p>
+</div>
+
+<div class="container col-6 text-center mysecheader mb-0">
+  <div
+    *ngIf="!isLoggedIn"
+    class="d-flex flex-row flex-wrap justify-content-center align-items-center myinnerheader mb-0"
+  >
+    <div class="m-2 fw-bold fst-italic">Not logged in</div>
+    <div class="m-2"><button class="btn btn-primary">Login</button></div>
+  </div>
+  <div
+    *ngIf="isLoggedIn"
+    class="d-flex flex-row flex-wrap justify-content-center align-items-center myinnerheader mb-0"
+  >
+    <div class="m-2 fw-bold fst-italic">Welcome {{ loggedInName }}</div>
+    <div class="m-2">
+      <button (click)="goToProfile()" class="btn btn-primary">Profile</button>
+    </div>
+  </div>
+  <div class="text-center briefing">
+    <img
+      src="../../../assets/redsign.jpg"
+      alt="logo.png"
+      width="200"
+      height="200"
+    />
+    <img
+      src="../../../assets/stopsign.PNG"
+      alt="logo.png"
+      width="200"
+      height="200"
+    />
+  </div>
+  <div class="text-center briefing p-2">
+    <h6>Before you go on....</h6>
+    <p>Do <strong>NOT</strong> make posts/comments related to:</p>
+    <ul>
+      <li>Sexual/Homophobic</li>
+      <li>Racial</li>
+      <li>Profanities</li>
+    </ul>
+    <h6>
+      Admin is always watching 👀, we will not hesitate to ban anyone that
+      violate these rules
+    </h6>
+  </div>
+</div>

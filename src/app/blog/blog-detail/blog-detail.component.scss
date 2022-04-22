@@ -1,0 +1,50 @@
+.user:hover {
+  background: lime;
+  cursor: pointer;
+}
+
+.blogger:hover {
+  cursor: pointer;
+}
+
+.commentbutton {
+  border-radius: 0%;
+  padding: 0;
+}
+
+.user-profile:hover {
+  cursor: pointer;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 220px;
+  width: auto;
+}
+
+.commentsection {
+  background: linear-gradient(to bottom, #f0ffff 0%, #e0ffff 100%);
+  width: 100%;
+}
+
+.private-status {
+  border: 2px black solid;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px;
+}
+
+li {
+  list-style: none;
+}
+
+.decorate-modal {
+  background: radial-gradient(
+    circle at center,
+    rgb(255, 250, 205),
+    rgb(224, 255, 255)
+  );
+}
+
+.general-width {
+  width: 800px;
+}

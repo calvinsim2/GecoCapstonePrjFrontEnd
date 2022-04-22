@@ -1,0 +1,120 @@
+<div class="content container-fluid">
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div class="page-header text-dark">
+      <button (click)="navigateToHome()" class="btn btn-success mt-2">
+        Home
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="container text-center mx-auto mt-5">
+  <img src="assets/logo.jpg" width="150" alt="" />
+</div>
+<div class="container col-4 bg-info mx-auto my-3 border border-primary rounded">
+  <div class="container text-center m-2">
+    <h3 class="account-title">Login</h3>
+
+    <button (click)="navigateToSignUp()" class="btn btn-success">
+      Not a user? Sign up HERE!
+    </button>
+  </div>
+
+  <form [formGroup]="loginForm">
+    <label>Email Address</label>
+    <input type="text" formControlName="Email" class="form-control" />
+
+    <div class="row">
+      <div class="col">
+        <label>Password</label>
+        <span
+          (click)="onTogglePassword()"
+          class="fa toggle-password fa-eye mx-1"
+        ></span>
+      </div>
+      <div class="col-auto">
+        <a
+          class="text-primary text-underlined pw-reset"
+          data-bs-toggle="modal"
+          data-bs-target="#blogModal"
+          >Forgot password?</a
+        >
+      </div>
+    </div>
+    <div class="position-relative">
+      <input
+        formControlName="Password"
+        class="form-control"
+        type="{{ text }}"
+      />
+    </div>
+
+    <div class="form-group text-center m-2">
+      <button
+        type="submit"
+        (click)="login()"
+        class="btn btn-warning account-btn"
+      >
+        Login
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Blog Card list ends -->
+
+<div
+  class="modal fade"
+  id="blogModal"
+  tabindex="-1"
+  aria-labelledby="blogLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content decorate-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="blogModalLabel">
+          Forgot your password? Getting Old?
+        </h5>
+        <button
+          type="button"
+          id="close-emp"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="resetPasswordForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Email <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="Email"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="close-emp"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary" (click)="resetPassword()">
+          Request Password Reset
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

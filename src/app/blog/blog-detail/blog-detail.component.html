@@ -1,0 +1,323 @@
+<div class="content container-fluid">
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div class="page-header text-dark">
+      <button (click)="seeBlogList()" class="btn btn-success mt-2">
+        Return to Blog List
+      </button>
+    </div>
+    <div
+      [ngStyle]="{ backgroundColor: getColor() }"
+      *ngIf="isEditable"
+      class="private-status mt-2"
+    >
+      <h6>Public : {{ isPublic }}</h6>
+    </div>
+  </div>
+</div>
+<div class="text-center">
+  <div
+    class="container-fluid text-center text-primary text-decoration-underline mt-3"
+  >
+    <img
+      class="img-fluid img-thumbnail user"
+      [src]="blogData?.user?.profileImgUrl"
+      style="width: 60px; height: 60px; border-radius: 50%"
+      alt=""
+      (click)="toBloggerProfilePage()"
+    /><br />
+    <h6 class="blogger" (click)="toBloggerProfilePage()">
+      {{ blogData?.user?.fullName }}
+    </h6>
+  </div>
+
+  <div class="container-fluid text-center mt-3" style="height: 150px">
+    <h1>{{ blogData?.title }}</h1>
+    <h5>{{ blogData?.description }}</h5>
+    <h6 class="fw-bold fst-italic">Published : {{ blogPublishDate }}</h6>
+    <h6 *ngIf="blogUpdatedDate" class="fw-bold text-success fst-italic">
+      Updated : {{ blogUpdatedDate }}
+    </h6>
+  </div>
+  <div class="d-flex flex-row flex-wrap justify-content-center">
+    <button
+      *ngIf="isEditable"
+      (click)="onEditBlog()"
+      class="btn btn-success m-1"
+      data-bs-toggle="modal"
+      data-bs-target="#blogModal"
+    >
+      Edit Blog
+    </button>
+    <button
+      *ngIf="isDeletable"
+      (click)="deleteBlog(blogId)"
+      class="btn btn-danger m-1"
+    >
+      Delete Blog
+    </button>
+  </div>
+  <div class="container text-center p-0">
+    <img
+      [src]="blogData?.blogImg"
+      alt="{{ blogData?.title }}"
+      style="height: 400px"
+    />
+  </div>
+  <div
+    class="container text-center mt-2 alert alert-success border border-2 border-dark rounded"
+    [innerHTML]="blogData?.content"
+  ></div>
+</div>
+
+<div
+  class="container-fluid mt-3 mx-2 p-2 text-center border border-2 border-dark rounded fw-bold commentsection"
+>
+  <p>Comments</p>
+</div>
+
+<div
+  *ngIf="isCommentArrayEmpty"
+  class="container-fluid mx-2 text-center commentsection"
+>
+  <p>No comments posted in this blog yet...</p>
+</div>
+<!-- If there are comments -->
+<div
+  *ngIf="!isCommentArrayEmpty"
+  class="container-fluid mx-2 commentsection border border-2 border-dark rounded"
+>
+  <div
+    class="border-top border-1 border-dark"
+    *ngFor="let comms of commentArray; let i = index"
+  >
+    <div class="d-flex flex-row justify-content-start align-items-center">
+      <img
+        (click)="toUserPage(comms.user.userID)"
+        class="img-fluid img-thumbnail user"
+        [src]="comms?.user?.profileImgUrl"
+        style="width: 40px; height: 40px; border-radius: 50%"
+        alt=""
+      />
+      <h6 class="mx-2">{{ comms.user.fullName }}</h6>
+    </div>
+    <div class="d-flex flex-wrap justify-content-between">
+      <div class="align-self-center" [innerHTML]="comms?.comment"></div>
+      <div class="text-center d-flex justify-content-center align-items-center">
+        <div
+          class="text-center d-flex flex-column justify-content-center align-items-center mx-1"
+          style="width: 50px"
+        >
+          <button
+            *ngIf="this.currentUserId == comms.user.userID || userIsAdmin"
+            (click)="deleteComments(comms.commentID)"
+            class="btn btn-danger my-1 commentbutton border border-1 border-dark rounded"
+            style="width: 25px; height: 25px"
+          >
+            <i class="fa fa-window-close" aria-hidden="true"></i>
+          </button>
+          <button
+            *ngIf="this.currentUserId == comms.user.userID"
+            (click)="onEditComments(comms.comment, comms.commentID)"
+            class="btn btn-success my-1 commentbutton border border-1 border-dark rounded"
+            style="width: 25px; height: 25px"
+            data-bs-toggle="modal"
+            data-bs-target="#commentModal"
+          >
+            <i class="fa fa-pencil"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mx-1 fw-bold fs-6 fst-italic">
+      <p>Commented Date: {{ getDate(comms.createdDate) }}</p>
+    </div>
+  </div>
+</div>
+<div class="container-fluid col-6 text-center mt-3">
+  <button
+    (click)="onInsertComments()"
+    class="btn btn-secondary my-2"
+    data-bs-toggle="modal"
+    data-bs-target="#commentModal"
+  >
+    Add Comment...
+  </button>
+</div>
+
+<!-- Edit Blog Modal Starts here -->
+
+<div
+  class="modal fade"
+  id="blogModal"
+  tabindex="-1"
+  aria-labelledby="blogLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+  >
+    <div class="modal-content decorate-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="blogModalLabel">Something wrong?</h5>
+        <button
+          type="button"
+          id="close-emp"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="blogForm">
+          <div class="row">
+            <div class="col-sm-12 d-flex justify-content-center">
+              <img
+                class="img-fluid img-thumbnail"
+                [src]="imgUrl"
+                style="width: 120px; height: 120px; border-radius: 50%"
+                alt=""
+              /><br />
+              <div class="form-group">
+                <label for="file-input">
+                  <i class="fa fa-pencil"></i>
+                </label>
+              </div>
+            </div>
+            <input
+              (change)="loadProfileImage($event)"
+              style="display: none"
+              id="file-input"
+              type="file"
+              accept="image/*"
+            />
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Title <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="Title"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Description <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="Description"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6 my-2">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  formControlName="IsVisible"
+                  value=""
+                  id="flexCheckDefault"
+                />
+                <label class="form-check-label" for="flexCheckDefault">
+                  Public?
+                </label>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="container" style="height: 300px">
+          <label class="col-form-label"
+            >Content <span class="text-danger">*</span></label
+          >
+          <ckeditor
+            [(ngModel)]="currentEditor.content"
+            [editor]="Editor"
+          ></ckeditor>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="close-emp"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-success" (click)="updateBlog()">
+          Update Blog
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Comment Modal Starts here -->
+
+<div
+  class="modal fade"
+  id="commentModal"
+  tabindex="-1"
+  aria-labelledby="commentLabel"
+  aria-hidden="true"
+>
+  <div
+    class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+  >
+    <div class="modal-content decorate-modal">
+      <div class="modal-header">
+        <h5 class="modal-title" id="commentModalLabel">Any thoughts?</h5>
+        <button
+          type="button"
+          id="close-emp-comment"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="col">
+          <label class="col-form-label"
+            >Comment <span class="text-danger">*</span></label
+          >
+          <ckeditor
+            [(ngModel)]="currentEditor.commentsContent"
+            [editor]="Editor"
+          ></ckeditor>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="close-emp-comment"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          *ngIf="!this.isEditingComment"
+          class="btn btn-primary"
+          (click)="insertComments()"
+        >
+          Add Comment
+        </button>
+        <button
+          type="button"
+          *ngIf="this.isEditingComment"
+          class="btn btn-success"
+          (click)="editComments()"
+        >
+          Edit Comment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

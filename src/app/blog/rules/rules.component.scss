@@ -1,0 +1,38 @@
+.myheader {
+    font-family: "Updock", cursive;
+    font-size: 150px;
+    font-weight: bold;
+    color: gold;
+  }
+  
+  .briefing {
+    background: lightcyan;
+    margin: 0;
+  }
+  
+  .mysecheader {
+    padding: 0;
+  
+    border-width: 3px;
+    border-color: white;
+    border-style: solid;
+    border-radius: 5px;
+  }
+  
+  .myinnerheader {
+    background: radial-gradient(circle at center, rgb(127,255,0), rgb(50,205,50));
+    
+    
+  }
+  
+  .myinnersecondheader {
+    margin: 0;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+  }
+
+  li {
+    list-style: none;
+  }
+  

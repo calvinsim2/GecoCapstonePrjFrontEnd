@@ -1,0 +1,64 @@
+.blog {
+  background-image: url("../../../assets/blogs.jpg");
+  background-size: cover;
+  background-position: center center;
+}
+
+.rules {
+  background-image: url("../../../assets/rules.jpg");
+  background-size: cover;
+  background-position: center center;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after {
+  content: ">";
+  font-size: 55px;
+  color: red;
+}
+
+.carousel-control-prev-icon:after {
+  content: "<";
+  font-size: 55px;
+  color: red;
+}
+
+.myheader {
+  font-family: "Updock", cursive;
+  font-size: 150px;
+  font-weight: bold;
+  color: gold;
+}
+
+.briefing {
+  background: lightcyan;
+  margin: 0;
+}
+
+.mysecheader {
+  padding: 0;
+
+  border-width: 3px;
+  border-color: white;
+  border-style: solid;
+  border-radius: 5px;
+}
+
+.myinnerheader {
+  background: radial-gradient(circle at center, rgb(127,255,0), rgb(50,205,50));
+}
+
+.myinnersecondheader {
+  margin: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}

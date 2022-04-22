@@ -1,0 +1,246 @@
+<div class="content container-fluid">
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div class="page-title myheader text-center mt-2">
+      <p>Profile</p>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid col-6 text-center">
+  <img
+    class="img-fluid img-thumbnail mt-3"
+    [src]="userData?.profileImgUrl"
+    style="width: 120px; height: 120px; border-radius: 50%"
+    alt=""
+  /><br />
+</div>
+<div class="fw-bold text-center mt-2">
+  <p>{{ userRole }}</p>
+</div>
+
+<div
+  *ngIf="isEditable"
+  class="container-fluid col-4 text-center mt-3 d-flex flex-column justify-content-center align-items-center"
+>
+  <div *ngIf="isEditable" class="container-fluid col text-center mt-1">
+    <button
+      (click)="onEditUser()"
+      class="btn btn-success"
+      data-bs-toggle="modal"
+      data-bs-target="#userModal"
+    >
+      Edit <i class="fa fa-pencil"></i>
+    </button>
+  </div>
+  <div *ngIf="isEditable" class="container-fluid col text-center mt-1">
+    <button
+      (click)="onChangingPassword()"
+      class="btn btn-secondary"
+      data-bs-toggle="modal"
+      data-bs-target="#userModal"
+    >
+      Change Password <i class="fa fa-key" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+
+<div class="container col-7 text-center mt-3">
+  <div class="row bg-light border border-dark rounded">
+    <div class="col">
+      <i class="fa fa-id-card"></i>
+      <p>User ID</p>
+      <h5>{{ userData?.userID }}</h5>
+    </div>
+    <div class="col">
+      <i class="fa fa-user-circle-o"></i>
+      <p>Name</p>
+      <h5>{{ userData?.fullName }}</h5>
+    </div>
+    <div class="col">
+      <i class="fa fa-calendar" aria-hidden="true"></i>
+      <p>Joined Date</p>
+      <h5>{{ userData?.joinedDate }}</h5>
+    </div>
+  </div>
+</div>
+<div *ngIf="isBlogger" class="fw-bold text-center mt-2">
+  <p>Blogs by Blogger:</p>
+  <button (click)="seeAllBlogsByUser(userId)" class="btn btn-primary">
+    View All
+  </button>
+</div>
+<div class="container d-flex flex-row flex-wrap justify-content-center mt-1">
+  <div *ngFor="let blog of blogArray; let i = index">
+    <div *ngIf="i < 2">
+      <div
+        *ngIf="blog.isVisible || isEditable"
+        class="card decorate-cards"
+        style="width: 18rem"
+      >
+        <img [src]="blog.blogImg" class="card-img-top" alt="blog" />
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ blog.title }}</h5>
+          <p class="card-text">{{ blog.description }}</p>
+          <div class="text-center">
+            <button (click)="seeDetails(blog.blogID)" class="btn btn-primary">
+              Read More
+            </button>
+          </div>
+          <p class="card-text fw-bold mt-1">
+            Created Date : {{ getDate(blog?.publishDate) }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit User Modal  -->
+
+<div
+  class="modal fade"
+  id="userModal"
+  tabindex="-1"
+  aria-labelledby="userLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content decorate-modal">
+      <div class="modal-header">
+        <h5 *ngIf="!changingPassword" class="modal-title" id="userModalLabel">
+          Change is good!
+        </h5>
+        <h5 *ngIf="changingPassword" class="modal-title" id="userModalLabel">
+          Don't like your current password?
+        </h5>
+        <button
+          type="button"
+          id="close-emp"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <!-- Edit user details form -->
+      <div *ngIf="!changingPassword" class="modal-body">
+        <form [formGroup]="userForm">
+          <div class="row">
+            <div class="col-sm-12 d-flex justify-content-center">
+              <img
+                class="img-fluid img-thumbnail"
+                [src]="imgUrl"
+                style="width: 120px; height: 120px; border-radius: 50%"
+                alt=""
+              /><br />
+              <div class="form-group">
+                <label for="file-input">
+                  <i class="fa fa-pencil"></i>
+                </label>
+              </div>
+            </div>
+            <input
+              (change)="loadProfileImage($event)"
+              style="display: none"
+              id="file-input"
+              type="file"
+              accept="image/*"
+            />
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Email <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="Email"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >FullName <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="FullName"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Change Password Form -->
+      <div *ngIf="changingPassword" class="modal-body">
+        <form [formGroup]="changePasswordForm">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Email <span class="text-danger">*</span></label
+                >
+                <input
+                  type="text"
+                  formControlName="Email"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >Current Password <span class="text-danger">*</span></label
+                >
+                <input
+                  type="password"
+                  formControlName="OldPassword"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="col-form-label"
+                  >New Password <span class="text-danger">*</span></label
+                >
+                <input
+                  type="password"
+                  formControlName="NewPassword"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="close-emp"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button
+          type="button"
+          *ngIf="!changingPassword"
+          class="btn btn-current"
+          (click)="updateUser()"
+        >
+          Save changes
+        </button>
+        <button
+          type="button"
+          *ngIf="changingPassword"
+          class="btn btn-warning"
+          (click)="changePassword()"
+        >
+          Change Password
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

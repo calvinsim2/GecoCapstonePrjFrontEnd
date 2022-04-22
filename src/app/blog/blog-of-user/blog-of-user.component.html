@@ -1,0 +1,36 @@
+<div class="container-fluid col-6 text-center">
+  <img
+    class="img-fluid img-thumbnail mt-3"
+    [src]="profileUserImage"
+    style="width: 120px; height: 120px; border-radius: 50%"
+    alt=""
+  /><br />
+</div>
+<div class="container-fluid col-6 text-center mt-3">
+  <button (click)="seeUserDetails()" class="btn btn-primary">
+    View User Profile
+  </button>
+</div>
+<div class="fw-bold text-center mt-2">
+  <p>{{ profileName }}'s Blogs</p>
+</div>
+
+<div class="container d-flex flex-row flex-wrap justify-content-evenly">
+  <div *ngFor="let blog of blogList">
+    <div *ngIf="blog.isVisible || isActualUser" class="card my-2 decorate-cards" style="width: 18rem">
+      <img [src]="blog.blogImg" class="card-img-top" alt="blog" />
+      <div class="card-body text-center">
+        <h5 class="card-title">{{ blog.title }}</h5>
+        <p class="card-text">{{ blog.description }}</p>
+        <div class="text-center">
+          <button (click)="seeBlogDetails(blog.blogID)" class="btn btn-primary">
+            Read More
+          </button>
+        </div>
+        <p class="card-text fw-bold mt-1">
+          Created Date : {{ getDate(blog?.publishDate) }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
