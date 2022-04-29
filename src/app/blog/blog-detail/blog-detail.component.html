@@ -50,17 +50,19 @@
     </button>
     <button
       *ngIf="isDeletable"
-      (click)="deleteBlog(blogId)"
+      (click)="onDeleteBlog()"
       class="btn btn-danger m-1"
+      data-bs-toggle="modal"
+      data-bs-target="#blogModal"
     >
       Delete Blog
     </button>
   </div>
-  <div class="container text-center p-0">
+  <div class="text-center p-0">
     <img
       [src]="blogData?.blogImg"
       alt="{{ blogData?.title }}"
-      style="height: 400px"
+      class="myportrait"
     />
   </div>
   <div
@@ -109,9 +111,11 @@
         >
           <button
             *ngIf="this.currentUserId == comms.user.userID || userIsAdmin"
-            (click)="deleteComments(comms.commentID)"
+            (click)="onDeleteComments(comms.commentID)"
             class="btn btn-danger my-1 commentbutton border border-1 border-dark rounded"
             style="width: 25px; height: 25px"
+            data-bs-toggle="modal"
+            data-bs-target="#commentModal"
           >
             <i class="fa fa-window-close" aria-hidden="true"></i>
           </button>
@@ -128,8 +132,11 @@
         </div>
       </div>
     </div>
-    <div class="mx-1 fw-bold fs-6 fst-italic">
+    <div *ngIf="comms.updatedDate == null" class="mx-1 fw-bold fs-6 fst-italic">
       <p>Commented Date: {{ getDate(comms.createdDate) }}</p>
+    </div>
+    <div *ngIf="comms.updatedDate != null" class="mx-1 fw-bold fs-6 fst-italic">
+      <p>Commented Date (Edited) : {{ getDate(comms.updatedDate) }}</p>
     </div>
   </div>
 </div>
@@ -158,7 +165,12 @@
   >
     <div class="modal-content decorate-modal">
       <div class="modal-header">
-        <h5 class="modal-title" id="blogModalLabel">Something wrong?</h5>
+        <h5 *ngIf="!isDeletingBlog" class="modal-title" id="blogModalLabel">
+          Something wrong with your blog?
+        </h5>
+        <h5 *ngIf="isDeletingBlog" class="modal-title" id="blogModalLabel">
+          Confirm Delete
+        </h5>
         <button
           type="button"
           id="close-emp"
@@ -167,7 +179,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
+      <div *ngIf="!isDeletingBlog" class="modal-body">
         <form [formGroup]="blogForm">
           <div class="row">
             <div class="col-sm-12 d-flex justify-content-center">
@@ -241,17 +253,27 @@
           ></ckeditor>
         </div>
       </div>
-      <div class="modal-footer">
+      <div *ngIf="isDeletingBlog" class="modal-body">
+        <p class="fw-bold fst-italic">
+          Are you sure you want to delete this blog?
+        </p>
+      </div>
+      <div class="text-center my-2">
         <button
+          *ngIf="!isDeletingBlog"
           type="button"
-          id="close-emp"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
+          class="btn btn-success text-center"
+          (click)="updateBlog()"
         >
-          Close
-        </button>
-        <button type="button" class="btn btn-success" (click)="updateBlog()">
           Update Blog
+        </button>
+        <button
+          *ngIf="isDeletingBlog"
+          type="button"
+          class="btn btn-danger text-center"
+          (click)="deleteBlog()"
+        >
+          Delete Blog
         </button>
       </div>
     </div>
@@ -272,7 +294,27 @@
   >
     <div class="modal-content decorate-modal">
       <div class="modal-header">
-        <h5 class="modal-title" id="commentModalLabel">Any thoughts?</h5>
+        <h5
+          *ngIf="!isDeletingComment && !isEditingComment"
+          class="modal-title"
+          id="commentModalLabel"
+        >
+          Any thoughts?
+        </h5>
+        <h5
+          *ngIf="!isDeletingComment && isEditingComment"
+          class="modal-title"
+          id="commentModalLabel"
+        >
+          Editing Comment
+        </h5>
+        <h5
+          *ngIf="isDeletingComment && !isEditingComment"
+          class="modal-title"
+          id="commentModalLabel"
+        >
+          Delete Comment
+        </h5>
         <button
           type="button"
           id="close-emp-comment"
@@ -281,7 +323,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body">
+      <div *ngIf="!isDeletingComment" class="modal-body">
         <div class="col">
           <label class="col-form-label"
             >Comment <span class="text-danger">*</span></label
@@ -292,18 +334,13 @@
           ></ckeditor>
         </div>
       </div>
-      <div class="modal-footer">
+      <div *ngIf="isDeletingComment" class="modal-body">
+        <p class="fw-bold fst-italic">Delete this comment? Are you sure?</p>
+      </div>
+      <div class="text-center my-2">
         <button
           type="button"
-          id="close-emp-comment"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-        >
-          Close
-        </button>
-        <button
-          type="button"
-          *ngIf="!this.isEditingComment"
+          *ngIf="!isEditingComment && !isDeletingComment"
           class="btn btn-primary"
           (click)="insertComments()"
         >
@@ -311,11 +348,19 @@
         </button>
         <button
           type="button"
-          *ngIf="this.isEditingComment"
+          *ngIf="isEditingComment && !isDeletingComment"
           class="btn btn-success"
           (click)="editComments()"
         >
           Edit Comment
+        </button>
+        <button
+          type="button"
+          *ngIf="!isEditingComment && isDeletingComment"
+          class="btn btn-danger"
+          (click)="deleteComments()"
+        >
+          Delete Comment
         </button>
       </div>
     </div>

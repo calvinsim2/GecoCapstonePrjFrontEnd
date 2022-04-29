@@ -10,6 +10,9 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class UserComponent implements OnInit {
   public userList!: any;
+  public filterUserList: any = [];
+  filterName: any = '';
+  filterRole: any = '';
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -32,14 +35,34 @@ export class UserComponent implements OnInit {
           this.userList.forEach((element: any) => {
             element.profileImgUrl = `https://localhost:44364/${element.profileImgUrl}`;
           });
+          this.filterUserList = this.userList;
         } else {
           this.userList = [];
+          this.filterUserList = this.userList;
         }
       },
       error: (err) => {
         alert('Error fetching, try again later.');
       },
     });
+  }
+
+  filterUserByName() {
+    const regex = new RegExp(this.filterName, 'g');
+    this.filterUserList = this.userList.filter((element: any) => {
+      return element.fullName.match(regex);
+    });
+  }
+
+  filterUserByRole() {
+    if (this.filterRole == 'All') {
+      this.filterUserList = this.userList;
+    } else {
+      const regex = new RegExp(this.filterRole, 'g');
+      this.filterUserList = this.userList.filter((element: any) => {
+        return element.role.roleName.match(regex);
+      });
+    }
   }
 
   getDate(date: any) {

@@ -70,6 +70,11 @@ export class AllBlogComponent implements OnInit {
     };
   }
 
+  onClose() {
+    this.imgUrl = '';
+    this.files = null;
+  }
+
   getAllBlogs() {
     this.blogService.getAllBlog().subscribe({
       next: (res) => {
@@ -90,7 +95,7 @@ export class AllBlogComponent implements OnInit {
 
   onAddBlog() {
     this.myForm.reset();
-    this.imgUrl = this.blogList.blogImg;
+    this.imgUrl = '';
     this.currentEditor.content = '';
   }
 

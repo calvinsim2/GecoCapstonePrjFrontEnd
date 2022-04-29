@@ -6,8 +6,34 @@
   </div>
 </div>
 
+<div class="d-flex justify-content-center align-items-center">
+  <div class="m-2">
+    <label for="fullname" class="mx-2">Filter by Name:</label>
+    <input
+      [(ngModel)]="filterName"
+      (ngModelChange)="filterUserByName()"
+      type="text"
+      id="fullname"
+      placeholder="Filter by FullName"
+    />
+  </div>
+  <div class="m-2">
+    <label for="role" class="mx-2">Filter by Role:</label>
+    <select
+      [(ngModel)]="filterRole"
+      (ngModelChange)="filterUserByRole()"
+      name="role"
+      id="role"
+    >
+      <option value="All">All</option>
+      <option value="Blogger">Blogger</option>
+      <option value="User">User</option>
+      <option value="Admin">Admin</option>
+    </select>
+  </div>
+</div>
 <div class="container d-flex flex-row flex-wrap justify-content-start">
-  <div *ngFor="let user of userList">
+  <div *ngFor="let user of filterUserList">
     <div
       class="card m-3 decorate-cards border-dark rounded"
       style="width: 18rem"

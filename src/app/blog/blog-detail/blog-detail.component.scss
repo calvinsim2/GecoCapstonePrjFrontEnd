@@ -45,6 +45,12 @@ li {
   );
 }
 
-.general-width {
-  width: 800px;
+.myportrait {
+  width: 400px;
+}
+
+@media (min-width: 760px) {
+  .myportrait {
+    width: 600px;
+  }
 }

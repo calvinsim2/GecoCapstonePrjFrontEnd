@@ -63,7 +63,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
+    <div class="modal-content decorate-modal border-2 border-dark rounded">
       <div class="modal-header">
         <h5 class="modal-title" id="signUpModalLabel">
           Welcome to the Community!
@@ -143,14 +143,6 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          id="close-emp"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-        >
-          Close
-        </button>
         <button type="button" class="btn btn-primary" (click)="addNewPerson()">
           Sign Up!
         </button>
@@ -169,7 +161,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content decorate-modal">
+    <div class="modal-content decorate-modal border-2 border-dark rounded">
       <div class="modal-header">
         <h5 class="modal-title" id="descriptionLabel">Unable to decide?</h5>
         <button
@@ -189,16 +181,7 @@
           User - If you want to read and comment on blogs only, you can't create
           blogs.
         </p>
-        <div class="modal-footer">
-          <button
-            type="button"
-            id="close-emp"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
-          </button>
-        </div>
+        <div class="modal-footer"></div>
       </div>
     </div>
   </div>

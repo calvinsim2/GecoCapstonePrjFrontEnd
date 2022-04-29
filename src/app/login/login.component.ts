@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 // step 1, we need to import this 3 things to build angular forms
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { AuthService } from '../shared/services/auth.service';
 import { Router } from '@angular/router';
 
@@ -42,7 +43,10 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           localStorage.setItem('token', res.token);
           this.authService.startTimeOut();
-          this.router.navigate(['blog']);
+
+          this.router.navigate([
+            `blog/user/${this.authService.getLoggedInUserID()}`,
+          ]);
           // store it in local storage.
         },
         error: (err) => {
@@ -69,6 +73,7 @@ export class LoginComponent implements OnInit {
           document.getElementById('close-emp')?.click();
         },
         error: (err) => {
+          console.log(err);
           alert(`${err.error.message}`);
         },
       });

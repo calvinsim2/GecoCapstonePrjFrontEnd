@@ -8,7 +8,9 @@
     class="d-flex flex-row flex-wrap justify-content-center align-items-center myinnerheader mb-0"
   >
     <div class="m-2 fw-bold fst-italic">Not logged in</div>
-    <div class="m-2"><button class="btn btn-primary">Login</button></div>
+    <div class="m-2">
+      <button (click)="goToLogin()" class="btn btn-primary">Login</button>
+    </div>
   </div>
   <div
     *ngIf="isLoggedIn"
@@ -40,10 +42,11 @@
       <li>Sexual/Homophobic</li>
       <li>Racial</li>
       <li>Profanities</li>
+      <li>Hate speeches</li>
     </ul>
     <h6>
-      Admin is always watching 👀, we will not hesitate to ban anyone that
-      violate these rules
+      Admin is always watching 👀, we will not hesitate to delete blogs/comments
+      that violate these rules
     </h6>
   </div>
 </div>

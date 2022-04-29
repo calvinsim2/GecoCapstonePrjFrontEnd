@@ -19,6 +19,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
   styleUrls: ['./blog-detail.component.scss'],
 })
 export class BlogDetailComponent implements OnInit {
+  // blog related variables
   public blogForm!: FormGroup;
   public commentForm!: FormGroup;
   blogId!: number;
@@ -26,19 +27,24 @@ export class BlogDetailComponent implements OnInit {
   blogPublishDate!: any;
   blogUpdatedDate!: any;
   blogObj = new BlogModel();
-  commentObj = new CommentModel();
+  public files: any;
+  public imgUrl: string | ArrayBuffer | null = '';
+  isDeletingBlog!: boolean;
+  // authentication related variables
   currentUserId!: any;
   isEditable!: boolean;
   isDeletable!: boolean;
   isPublic!: boolean;
   isPublicColor!: string;
+  userIsAdmin!: boolean;
+  // comments related variables
+  commentObj = new CommentModel();
   commentArray: any = [];
   isCommentArrayEmpty!: boolean;
-  public files: any;
-  public imgUrl: string | ArrayBuffer | null = '';
   isEditingComment!: boolean;
+  isDeletingComment!: boolean;
   currentEditCommentID!: any;
-  userIsAdmin!: boolean;
+  currentSelectedCommentIDtoDelete!: any;
 
   public Editor = ClassicEditor;
   public currentEditor = {
@@ -56,10 +62,12 @@ export class BlogDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // extract current data from logged in user using activatedRoute
     this.activatedRoute.params.subscribe((id) => {
       this.blogId = id['id'];
     });
 
+    // initialize form, and assign requirement
     this.blogForm = this.formBuilder.group({
       Title: ['', Validators.required],
       Description: ['', Validators.required],
@@ -67,15 +75,19 @@ export class BlogDetailComponent implements OnInit {
       IsVisible: false,
     });
 
+    // obtain current logged in userID from authService
     this.currentUserId = this.authService.getLoggedInUserID();
+    // check if log in user is admin
     this.userIsAdmin = this.authService.getLoggedInRoleID() == 3 ? true : false;
     this.getBlogDetails();
   }
 
+  // api to fetch ALL Blogs
   getBlogDetails() {
     this.blogService.getBlogbyId(Number(this.blogId)).subscribe((res: any) => {
       this.blogData = res.result;
       this.isPublic = this.blogData.isVisible;
+      // if blog is NOT public, redirect non owners away.
       if (!this.isPublic) {
         if (res.result.userID != this.authService.getLoggedInUserID()) {
           this.router.navigate(['blog/blog']);
@@ -106,6 +118,7 @@ export class BlogDetailComponent implements OnInit {
     });
   }
 
+  // upload files
   loadProfileImage(event: any) {
     if (!event.target.files[0] || event.target.files.length === 0) {
       alert('Select an Image!');
@@ -133,6 +146,7 @@ export class BlogDetailComponent implements OnInit {
   // Edit / Delete BLOG
 
   onEditBlog() {
+    this.isDeletingBlog = false;
     this.imgUrl = this.blogData?.blogImg;
     this.blogForm.controls['Title'].setValue(this.blogData.title);
     this.blogForm.controls['Description'].setValue(this.blogData.description);
@@ -164,10 +178,15 @@ export class BlogDetailComponent implements OnInit {
     });
   }
 
-  deleteBlog(id: any) {
-    this.blogService.deleteBlog(id).subscribe({
+  onDeleteBlog() {
+    this.isDeletingBlog = true;
+  }
+
+  deleteBlog() {
+    this.blogService.deleteBlog(this.blogId).subscribe({
       next: (res) => {
         alert(`${res.message}`);
+        document.getElementById('close-emp')?.click();
         this.router.navigate([`blog/blog`]);
       },
 
@@ -179,6 +198,7 @@ export class BlogDetailComponent implements OnInit {
 
   onInsertComments() {
     this.isEditingComment = false;
+    this.isDeletingComment = false;
     this.currentEditor.commentsContent = '';
   }
 
@@ -205,6 +225,7 @@ export class BlogDetailComponent implements OnInit {
 
   onEditComments(comment: any, commentid: any) {
     this.isEditingComment = true;
+    this.isDeletingComment = false;
     this.currentEditCommentID = commentid;
     this.currentEditor.commentsContent = comment;
   }
@@ -229,16 +250,26 @@ export class BlogDetailComponent implements OnInit {
     });
   }
 
-  deleteComments(id: any) {
-    this.commentService.deleteComment(id).subscribe({
-      next: (res) => {
-        alert('Selected comment have been deleted!');
-        this.getBlogDetails();
-      },
-      error: (err) => {
-        alert('Sorry, please try again.');
-      },
-    });
+  onDeleteComments(id: any) {
+    this.isEditingComment = false;
+    this.isDeletingComment = true;
+    this.currentSelectedCommentIDtoDelete = id;
+  }
+
+  deleteComments() {
+    this.commentService
+      .deleteComment(this.currentSelectedCommentIDtoDelete)
+      .subscribe({
+        next: (res) => {
+          alert('Selected comment have been deleted!');
+          document.getElementById('close-emp-comment')?.click();
+          this.currentSelectedCommentIDtoDelete = null;
+          this.getBlogDetails();
+        },
+        error: (err) => {
+          alert('Sorry, please try again.');
+        },
+      });
   }
 
   // Misc Functions

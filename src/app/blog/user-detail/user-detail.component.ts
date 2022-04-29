@@ -35,12 +35,11 @@ export class UserDetailComponent implements OnInit {
   commentsArray: any = [];
   isEditable!: boolean;
   changingPassword!: boolean;
-  isActualUser !: boolean;
+  isActualUser!: boolean;
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((id) => {
       this.userId = id['id'];
-
     });
 
     this.userForm = this.formBuilder.group({
@@ -55,7 +54,6 @@ export class UserDetailComponent implements OnInit {
     });
     this.getUserDetails();
     this.isEditable = this.userId == this.authService.getLoggedInUserID();
-    
   }
 
   getUserDetails() {
@@ -170,8 +168,7 @@ export class UserDetailComponent implements OnInit {
   }
 
   getDate(date: any) {
-
-    return date.slice(0, 10)
+    return date.slice(0, 10);
   }
 
   seeDetails(id: any) {

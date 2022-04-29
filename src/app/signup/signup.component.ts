@@ -29,7 +29,7 @@ export class SignupComponent implements OnInit {
       Email: ['', Validators.required],
       Password: ['', Validators.required],
       FullName: ['', Validators.required],
-      ProfileImgUrl: [''],
+      // ProfileImgUrl: [''],
       roleId: [''],
     });
   }
@@ -61,12 +61,14 @@ export class SignupComponent implements OnInit {
   onAddBlogger() {
     this.userForm.reset();
     this.imgUrl = '';
+    this.files = null;
     this.currentRoleId = 1;
   }
 
   onAddUser() {
     this.userForm.reset();
     this.imgUrl = '';
+    this.files = null;
     this.currentRoleId = 2;
   }
 
@@ -75,7 +77,6 @@ export class SignupComponent implements OnInit {
     this.userObj.password = this.userForm.value.Password;
     this.userObj.fullName = this.userForm.value.FullName;
     this.userObj.roleID = this.currentRoleId;
-
     let formData = new FormData();
     formData.append('UserDetails', JSON.stringify(this.userObj));
     formData.append('UserImage', this.files);

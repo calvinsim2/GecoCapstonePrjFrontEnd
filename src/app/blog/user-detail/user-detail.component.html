@@ -14,7 +14,7 @@
     alt=""
   /><br />
 </div>
-<div class="fw-bold text-center mt-2">
+<div class="fw-bold fst-italic text-center text-secondary mt-2">
   <p>{{ userRole }}</p>
 </div>
 
@@ -74,7 +74,7 @@
     <div *ngIf="i < 2">
       <div
         *ngIf="blog.isVisible || isEditable"
-        class="card decorate-cards"
+        class="card decorate-cards m-2"
         style="width: 18rem"
       >
         <img [src]="blog.blogImg" class="card-img-top" alt="blog" />
@@ -218,16 +218,8 @@
       <div class="modal-footer">
         <button
           type="button"
-          id="close-emp"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-        >
-          Close
-        </button>
-        <button
-          type="button"
           *ngIf="!changingPassword"
-          class="btn btn-current"
+          class="btn btn-success"
           (click)="updateUser()"
         >
           Save changes

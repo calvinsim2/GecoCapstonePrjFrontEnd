@@ -9,11 +9,13 @@ import { AuthService } from '../shared/services/auth.service';
 })
 export class BlogComponent implements OnInit {
   isLoggedIn!: boolean;
+  loggedInRoleID!: any;
   userIsAdmin!: boolean;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.authService.getLoggedInUser() ? true : false;
+    this.loggedInRoleID = this.authService.getLoggedInRoleID();
     this.userIsAdmin = this.authService.getLoggedInRoleID() == 3 ? true : false;
   }
 
@@ -32,7 +34,19 @@ export class BlogComponent implements OnInit {
     this.router.navigate([`blog/user/${this.authService.getLoggedInUserID()}`]);
   }
 
+  // setNavBarColor() {
+  //   return this.userIsAdmin == true ? 'lightgreen' : 'mistyrose';
+  // }
+
   setNavBarColor() {
-    return this.userIsAdmin == true ? 'lightgreen' : 'mistyrose';
+    if (this.userIsAdmin == true) {
+      return 'lightgreen';
+    } else if (this.loggedInRoleID == 1) {
+      return 'orchid';
+    } else if (this.loggedInRoleID == 2) {
+      return 'mistyrose';
+    } else {
+      return 'white';
+    }
   }
 }
