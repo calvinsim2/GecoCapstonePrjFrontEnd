@@ -14,6 +14,7 @@ import { BlogComponent } from './blog.component';
 import { HomeComponent } from './home/home.component';
 import { RulesComponent } from './rules/rules.component';
 import { BlogOfUserComponent } from './blog-of-user/blog-of-user.component';
+import { UserCommentsComponent } from './user-comments/user-comments.component';
 
 
 
@@ -27,6 +28,7 @@ import { BlogOfUserComponent } from './blog-of-user/blog-of-user.component';
     HomeComponent,
     RulesComponent,
     BlogOfUserComponent,
+    UserCommentsComponent,
     
     
   ],

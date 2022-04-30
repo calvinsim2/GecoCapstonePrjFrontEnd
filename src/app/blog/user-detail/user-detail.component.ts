@@ -178,4 +178,8 @@ export class UserDetailComponent implements OnInit {
   seeAllBlogsByUser(id: any) {
     this.router.navigate([`blog/user/blog/${id}`]);
   }
+
+  seeCommentsMadeByUser() {
+    this.router.navigate([`blog/user/comments/${this.userId}`]);
+  }
 }

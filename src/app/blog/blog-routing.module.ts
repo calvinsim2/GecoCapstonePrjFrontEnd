@@ -9,6 +9,7 @@ import { BlogDetailComponent } from './blog-detail/blog-detail.component';
 import { BlogOfUserComponent } from './blog-of-user/blog-of-user.component';
 import { UserComponent } from './user/user.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import { UserCommentsComponent } from './user-comments/user-comments.component';
 
 import { AuthGuard } from '../shared/guards/auth.guard';
 
@@ -31,6 +32,11 @@ const routes: Routes = [
       {
         path: 'user/blog/:id',
         component: BlogOfUserComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'user/comments/:id',
+        component: UserCommentsComponent,
         canActivate: [AuthGuard],
       },
       {

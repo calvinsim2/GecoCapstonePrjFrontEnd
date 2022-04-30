@@ -3,6 +3,15 @@
     <div class="page-title myheader text-center mt-2">
       <p>Profile</p>
     </div>
+    <div class="add-blog mt-2">
+      <button
+        *ngIf="isEditable"
+        (click)="seeCommentsMadeByUser()"
+        class="btn addbtn btn-secondary"
+      >
+        <i class="fa fa-comments" aria-hidden="true"></i> My Comments
+      </button>
+    </div>
   </div>
 </div>
 

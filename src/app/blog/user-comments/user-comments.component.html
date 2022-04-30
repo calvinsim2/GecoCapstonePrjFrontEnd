@@ -1,0 +1,83 @@
+<div class="content container-fluid">
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <div class="page-title myheader text-center mt-2">
+      <p>Comments</p>
+    </div>
+    <div class="page-header text-dark">
+      <button (click)="returnToProfile()" class="btn btn-success mt-2">
+        Return to Profile
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="isCommentArrayEmpty"
+  class="container-fluid mx-2 text-center fw-bold fst-italic commentsection"
+>
+  <p>You have not commented on any blogs yet...</p>
+  <p>
+    Read blogs posted on the community blog's page and share your views today!
+  </p>
+  <div class="page-header text-dark">
+    <button (click)="seeBlogList()" class="btn btn-success my-3">
+      View Community Blog
+    </button>
+  </div>
+</div>
+
+<!-- <div
+  *ngIf="!isCommentArrayEmpty"
+  class="container-fluid mx-2 commentsection border border-2 border-dark rounded"
+>
+  <div
+    class="border-top border-1 border-dark"
+    *ngFor="let comms of commentsArray; let i = index"
+  >
+    <div class="d-flex flex-wrap justify-content-between">
+      <div class="align-self-center" [innerHTML]="comms?.comment"></div>
+    </div>
+    <div *ngIf="comms.updatedDate == null" class="mx-1 fw-bold fs-6 fst-italic">
+      <p>Commented Date: {{ comms.createdDate }}</p>
+    </div>
+    <div *ngIf="comms.updatedDate != null" class="mx-1 fw-bold fs-6 fst-italic">
+      <p>Commented Date (Edited) : {{ comms.updatedDate }}</p>
+    </div>
+  </div>
+</div> -->
+
+<div *ngIf="!isCommentArrayEmpty" class="text-center alert alert-success">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Comment</th>
+        <th scope="col">Blog</th>
+        <th scope="col">Created</th>
+        <th scope="col">Updated</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let comms of commentsArray"
+        class="each-row"
+        (click)="seeIndividualBlog(comms.blogID)"
+      >
+        <td>
+          <div
+            class="align-self-center fst-italic"
+            [innerHTML]="comms?.comment"
+          ></div>
+        </td>
+        <td class="align-self-center fw-bold fst-italic">
+          {{ comms.blog.title }}
+        </td>
+        <td class="align-self-center fw-bold fst-italic">
+          {{ comms.createdDate }}
+        </td>
+        <td class="align-self-center fw-bold fst-italic text-success">
+          {{ comms.updatedDate }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
