@@ -16,8 +16,21 @@
   </div>
 </div>
 
+<div class="d-flex justify-content-center align-items-center">
+  <div class="m-2">
+    <label for="fullname" class="mx-2">Search by Title:</label>
+    <input
+      [(ngModel)]="filterName"
+      (ngModelChange)="filterBlogByName()"
+      type="text"
+      id="fullname"
+      placeholder="Filter by Blog Name"
+    />
+  </div>
+</div>
+
 <div class="container d-flex flex-row flex-wrap justify-content-start">
-  <div *ngFor="let blog of blogList">
+  <div *ngFor="let blog of filterBlogList">
     <div
       *ngIf="blog.isVisible"
       class="card m-3 decorate-cards border-dark rounded"

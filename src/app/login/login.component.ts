@@ -26,12 +26,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     // step 4, initialize the form builder with the inputs
     this.loginForm = this.formBuilder.group({
-      Email: ['', Validators.required],
+      Email: ['', Validators.compose([Validators.required, Validators.email])],
       Password: ['', Validators.required],
     });
 
     this.resetPasswordForm = this.formBuilder.group({
-      Email: ['', Validators.email],
+      Email: ['', Validators.compose([Validators.required, Validators.email])],
     });
     // when we visit the login page, we want to remove any residue token.
     localStorage.removeItem('token');
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
         },
       });
     } else {
-      alert('Form is not valid!');
+      alert('Please ensure Email is in correct format, and password filled.');
     }
   }
 
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
         },
       });
     } else {
-      alert('Email format is not valid!');
+      alert('Please insert a valid Email format!');
     }
   }
 

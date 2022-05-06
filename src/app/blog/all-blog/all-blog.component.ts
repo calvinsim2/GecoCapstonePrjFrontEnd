@@ -21,6 +21,8 @@ export class AllBlogComponent implements OnInit {
 
   public myForm!: FormGroup;
   public blogList: any = [];
+  public filterBlogList: any = [];
+  filterName: any = '';
   public files: any;
   public imgUrl: string | ArrayBuffer | null = null;
   public blogObj = new BlogModel();
@@ -83,8 +85,10 @@ export class AllBlogComponent implements OnInit {
           this.blogList.forEach((element: any) => {
             element.blogImg = `https://localhost:44364/${element.blogImg}`;
           });
+          this.filterBlogList = this.blogList;
         } else {
           this.blogList = [];
+          this.filterBlogList = this.blogList;
         }
       },
       error: (err) => {
@@ -128,6 +132,13 @@ export class AllBlogComponent implements OnInit {
     } else {
       alert('Error in Values Provided!');
     }
+  }
+
+  filterBlogByName() {
+    const regex = new RegExp(this.filterName, 'g');
+    this.filterBlogList = this.blogList.filter((element: any) => {
+      return element.title.match(regex);
+    });
   }
 
   getDate(date: any) {
